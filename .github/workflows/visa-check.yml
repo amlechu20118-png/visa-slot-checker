@@ -40,4 +40,4 @@ jobs:
       # Run script
       - name: Run checker
         run: |
-          python visa_slot_checker.py
+          python -u visa_slot_checker.py
