@@ -1,6 +1,5 @@
 import time
 import requests
-import traceback
 from datetime import datetime
 
 from selenium.webdriver.common.by import By
@@ -155,8 +154,10 @@ def check_slot():
 
    
      except Exception:
-        print("FULL ERROR:")
-        traceback.print_exc()
+    import traceback
+
+    print("FULL ERROR:")
+    traceback.print_exc()
 
     finally:
         if driver:
