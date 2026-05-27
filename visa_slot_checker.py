@@ -94,59 +94,37 @@ def check_slot():
     driver = None
 
     try:
-        driver = Driver(uc=True, headless=True)
+        driver = Driver(
+            uc=True,
+            headless=True,
+            chromium_arg="--no-sandbox,--disable-dev-shm-usage"
+        )
 
+        print("Opening page...")
         driver.get(URL)
 
-        table_xpath = "//*[contains(text(),'H-1B (Regular)')]/following::table[1]"
+        # Let JS load fully
+        time.sleep(10)
 
-        WebDriverWait(driver, 20).until(
-            EC.presence_of_element_located(
-                (By.XPATH, table_xpath)
-            )
-        )
+        page_source = driver.page_source.lower()
 
-        time.sleep(5)
+        if "cloudflare" in page_source:
+            print("Blocked by Cloudflare")
+            return
 
-        cells = driver.find_elements(
-            By.XPATH,
-            f"{table_xpath}//td"
-        )
+        tables = driver.find_elements(By.TAG_NAME, "table")
 
-        times = [
-            cell.text.strip()
-            for cell in cells
-            if cell.text.strip()
-        ]
+        print(f"Found {len(tables)} table(s)")
 
-        print(
-            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {times}"
-        )
+        if not tables:
+            print("No table found on page")
+            return
 
-        recent_alerts = []
-
-        for rel_time in times:
-            mins = get_relative_minutes(rel_time)
-
-            if mins is not None and mins <= ALERT_THRESHOLD_MINUTES:
-                recent_alerts.append(rel_time)
-
-        if recent_alerts:
-            alert_message = (
-                f"🚨 H-1B Slots Updated Recently: "
-                f"{', '.join(recent_alerts)}\n{URL}"
-            )
-
-            print(alert_message)
-
-            send_telegram_message(alert_message)
-            send_pushover_message(alert_message)
-
-        else:
-            print("No recent updates found.")
+        for table in tables:
+            print(table.text)
 
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Full error: {type(e).name}: {e}")
 
     finally:
         if driver:
