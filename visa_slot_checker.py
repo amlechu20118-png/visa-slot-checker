@@ -95,7 +95,9 @@ def check_slot():
     driver = None
 
     try:
+        print("Starting browser...")
         driver = Driver(     browser="chrome",     headless=True,     no_sandbox=True,     disable_gpu=True )
+        print("Opening URL...")
 
         driver.get(URL)
 
@@ -147,9 +149,9 @@ def check_slot():
             print("No recent updates found.")
 
    
-        except Exception:
-    print("FULL ERROR:")
-    traceback.print_exc()
+     except Exception:
+        print("FULL ERROR:")
+        traceback.print_exc()
 
     finally:
         if driver:
