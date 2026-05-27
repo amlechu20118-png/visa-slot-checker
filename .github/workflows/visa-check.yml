@@ -19,14 +19,25 @@ jobs:
         with:
           python-version: "3.11"
 
+      # Install Google Chrome
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      # Install Python packages
       - name: Install dependencies
         run: |
+          pip install -U pip
           pip install -r requirements.txt
+          pip install -U selenium seleniumbase
 
-      - name: Install Chrome for SeleniumBase
+      # Verify installations
+      - name: Verify installations
         run: |
-          seleniumbase install chromedriver
+          python --version
+          google-chrome --version
+          pip list
 
+      # Run script
       - name: Run checker
         run: |
           python visa_slot_checker.py
