@@ -95,23 +95,30 @@ def check_slot():
 
     try:
         print("Starting browser...")
-       driver = Driver(
-    browser="chrome",
-    headless=True,
-    no_sandbox=True,
-    agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36"
-)
+
+        driver = Driver(
+            browser="chrome",
+            headless=True,
+            no_sandbox=True,
+            agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36"
+        )
+
+        print("Browser launched")
         print("Opening URL...")
 
         driver.get(URL)
 
         table_xpath = "//*[contains(text(),'H-1B (Regular)')]/following::table[1]"
 
+        print("Waiting for table...")
+
         WebDriverWait(driver, 20).until(
             EC.presence_of_element_located(
                 (By.XPATH, table_xpath)
             )
         )
+
+        print("Table found")
 
         time.sleep(5)
 
@@ -152,12 +159,11 @@ def check_slot():
         else:
             print("No recent updates found.")
 
-   
-     except Exception:
-    import traceback
+    except Exception:
+        import traceback
 
-    print("FULL ERROR:")
-    traceback.print_exc()
+        print("FULL ERROR:")
+        traceback.print_exc()
 
     finally:
         if driver:
