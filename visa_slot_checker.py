@@ -96,7 +96,12 @@ def check_slot():
 
     try:
         print("Starting browser...")
-        driver = Driver(     browser="chrome",     headless=True,     no_sandbox=True,     disable_gpu=True )
+       driver = Driver(
+    browser="chrome",
+    headless=True,
+    no_sandbox=True,
+    agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36"
+)
         print("Opening URL...")
 
         driver.get(URL)
