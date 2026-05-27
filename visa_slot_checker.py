@@ -107,12 +107,17 @@ def check_slot():
         print("Opening URL...")
 
         driver.get(URL)
+        print("Current URL:", driver.current_url)
 
-        table_xpath = "//*[contains(text(),'H-1B (Regular)')]/following::table[1]"
+        print("Page title:", driver.title)
+
+        print(driver.page_source[:3000])
+
+        table_xpath = "//table"
 
         print("Waiting for table...")
 
-        WebDriverWait(driver, 20).until(
+        WebDriverWait(driver, 60).until(
             EC.presence_of_element_located(
                 (By.XPATH, table_xpath)
             )
