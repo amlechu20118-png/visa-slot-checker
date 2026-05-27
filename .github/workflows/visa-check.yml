@@ -1,0 +1,32 @@
+name: H1B Visa Slot Checker
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+
+  workflow_dispatch:
+
+jobs:
+  check-slots:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Install Chrome for SeleniumBase
+        run: |
+          seleniumbase install chromedriver
+
+      - name: Run checker
+        run: |
+          python visa_slot_checker.py
