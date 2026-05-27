@@ -23,7 +23,7 @@ jobs:
       - name: Install Chrome
         uses: browser-actions/setup-chrome@v1
 
-      # Install Python packages
+           # Install Python packages
       - name: Install dependencies
         run: |
           pip install -U pip
