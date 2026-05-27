@@ -1,5 +1,3 @@
-
-
 import time
 import requests
 import traceback
@@ -97,7 +95,7 @@ def check_slot():
     driver = None
 
     try:
-        driver = Driver(     uc=True,     headless=True,     no_sandbox=True,     disable_gpu=True,     chromium_arg="--disable-dev-shm-usage" )
+        driver = Driver(     browser="chrome",     headless=True,     no_sandbox=True,     disable_gpu=True )
 
         driver.get(URL)
 
